@@ -1,0 +1,21 @@
+[project]
+name = "agent-harness-lab"
+version = "0.1.0"
+description = "A from-scratch Python agent loop for learning tool calling, RAG, MCP, memory, evaluation, and safety"
+requires-python = ">=3.9"
+dependencies = []
+
+[project.optional-dependencies]
+live = ["openai>=1.60"]
+mcp = ["mcp>=1.10"]
+
+[project.scripts]
+agent-lab = "agent_lab.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["agent_lab*"]
+

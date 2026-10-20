@@ -1,0 +1,7 @@
+[
+  {"id":"K-01","title":"SLA definition","text":"SLA attainment is the share of support tickets resolved within the promised time. Compare the same period and calculate from ticket counts, not the average of regional percentages."},
+  {"id":"K-02","title":"West delivery incident note","text":"During the current week, the West delivery queue had a routing change and a two-day staffing gap. These are investigation leads, not proven causes of any SLA change."},
+  {"id":"K-03","title":"Escalation playbook","text":"If SLA falls, identify the segment with the largest excess late-ticket count, verify sample size, inspect queue and staffing changes, and ask an owner to confirm the operational cause."},
+  {"id":"K-04","title":"Data handling policy","text":"This training dataset is fictional. The assistant may read local sample tickets and notes only. It must not send messages, edit records, browse private systems, or execute generated code."}
+]
+

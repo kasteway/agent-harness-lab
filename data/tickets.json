@@ -1,0 +1,15 @@
+[
+  {"id":"T-101","week":"prior","region":"West","category":"delivery","resolved_in_sla":true},
+  {"id":"T-102","week":"prior","region":"West","category":"delivery","resolved_in_sla":true},
+  {"id":"T-103","week":"prior","region":"West","category":"billing","resolved_in_sla":true},
+  {"id":"T-104","week":"prior","region":"East","category":"delivery","resolved_in_sla":true},
+  {"id":"T-105","week":"prior","region":"East","category":"billing","resolved_in_sla":false},
+  {"id":"T-106","week":"prior","region":"East","category":"billing","resolved_in_sla":true},
+  {"id":"T-201","week":"current","region":"West","category":"delivery","resolved_in_sla":false},
+  {"id":"T-202","week":"current","region":"West","category":"delivery","resolved_in_sla":false},
+  {"id":"T-203","week":"current","region":"West","category":"billing","resolved_in_sla":true},
+  {"id":"T-204","week":"current","region":"East","category":"delivery","resolved_in_sla":true},
+  {"id":"T-205","week":"current","region":"East","category":"billing","resolved_in_sla":true},
+  {"id":"T-206","week":"current","region":"East","category":"billing","resolved_in_sla":false}
+]
+
