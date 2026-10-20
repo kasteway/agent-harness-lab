@@ -36,12 +36,24 @@ Use a model available to your account. API usage may have a cost. The live model
 
 ## Optional MCP server
 
+Use Python 3.10+ for the MCP SDK. The core practice lab still runs on Python 3.9+.
+
 ```bash
 pip install -e '.[mcp]'
 python -m agent_lab.mcp_server
 ```
 
 This runs a **real MCP server** exposing the same three tools to a compatible MCP client over stdio. The CLI's agent loop calls the underlying Python functions directly; it does not route through MCP. That distinction is deliberate and visible in the code.
+
+### See an API and MCP side by side
+
+With the MCP dependency installed, run:
+
+```bash
+python -m agent_lab.compare_interfaces
+```
+
+The script calls the **same `compare_sla()` calculation twice**. First, a direct HTTP client knows `POST /tools/compare_sla` and handles its JSON response. Then an MCP client launches the local MCP server, discovers its tools, calls `compare_sla`, and reads the result. You can inspect [`http_api.py`](agent_lab/http_api.py), [`compare_interfaces.py`](agent_lab/compare_interfaces.py), and [`mcp_server.py`](agent_lab/mcp_server.py) to see who does what. The local HTTP server binds only to `127.0.0.1` and closes when the comparison finishes.
 
 ## Study path
 
@@ -62,7 +74,7 @@ MCP server -> a separate standardized interface to the same tools
 | Offline practice | Scripted decision maker; deterministic and free |
 | Live model | Optional OpenAI Responses API model-chosen function calls |
 | RAG | Local lexical retrieval with source IDs; live mode can use retrieved passages in its answer |
-| MCP | Optional FastMCP server exposing the read-only tools |
+| MCP | Optional FastMCP server plus an actual client that discovers and calls its tools |
 | Memory | Explicit, local, opt-in JSON Q&A history; not silently injected into model context |
 | Evaluation | Reproducible arithmetic, retrieval, tool-sequence, citation, caution, and guardrail checks |
 | Safeguards | Tool allowlist, input validation, read-only operations, bounded steps, and no code execution |
@@ -74,10 +86,10 @@ This is a learning lab, **not** a production support assistant. The sample is ti
 - [Original tutorial](https://www.youtube.com/watch?v=H5o1P8RMiMw)
 - [OpenAI function calling guide](https://developers.openai.com/api/docs/guides/function-calling)
 - [Model Context Protocol Python SDK](https://github.com/modelcontextprotocol/python-sdk)
+- [MCP vs API video that motivated the comparison](https://www.youtube.com/watch?v=kn6dxL53NkM)
 - [Your Applied AI Field Guide](https://github.com/kasteway/applied-ai-learning-lab/blob/main/STUDY_GUIDE.md)
 - [Your OpsAtlas project](https://github.com/kasteway/opsatlas-ai)
 
 ## License
 
 MIT. See [LICENSE](LICENSE).
-

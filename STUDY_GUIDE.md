@@ -103,6 +103,39 @@ server.run()
 
 **Why this matters:** MCP solves interoperability between a client and tools. It does not, by itself, give an LLM judgment, memory, or good analytics. If asked whether this demo has “an MCP agent,” say accurately: “It has an MCP tool server and an independent agent loop over the same functions.”
 
+### API versus MCP: watch the complete round trip
+
+The [KodeKloud MCP vs API explanation](https://www.youtube.com/watch?v=kn6dxL53NkM) makes the client/server roles especially clear. The most useful improvement to this lab is now runnable: `python -m agent_lab.compare_interfaces` (Python 3.10+ and `pip install -e '.[mcp]'`).
+
+```text
+DIRECT API
+Python client → HTTP POST /tools/compare_sla → tiny API server → compare_sla()
+       ← JSON result                             ← same calculation
+
+MCP
+Python host → MCP client → list_tools() → MCP server → tool definitions
+            → call_tool("compare_sla") → MCP server → compare_sla()
+            ← tool result                                      ← same calculation
+```
+
+Read [`compare_interfaces.py`](agent_lab/compare_interfaces.py) alongside [`http_api.py`](agent_lab/http_api.py) and [`mcp_server.py`](agent_lab/mcp_server.py). In the direct path, the client knows the endpoint and JSON request format ahead of time. In the MCP path, it first asks the server what tools exist, then calls one by name. **Both return the same SLA calculation.** In a real integration, the server might wrap an existing company's API; MCP would standardize the connection to AI clients, while the underlying API still performs its normal work. Our sample server wraps a local Python function instead, so it needs no company credentials.
+
+| Role | In this lab | What it owns |
+|---|---|---|
+| Host/application | `compare_interfaces.py` | Starts the comparison and decides which call to make |
+| Direct API client | `call_direct_api()` | Knows the URL, sends HTTP, parses JSON |
+| API server | `ToolAPIHandler` | Receives the HTTP request and invokes approved logic |
+| MCP client | `ClientSession` in `call_mcp()` | Initializes the connection, discovers tools, sends a tool call |
+| MCP server | `FastMCP` in `mcp_server.py` | Advertises approved tools and routes the call |
+| Underlying function | `compare_sla()` | Calculates the result from ticket records |
+| Model | **Not used in this comparison** | The separate live-agent mode can propose tool calls; no model directly executes them |
+
+**Decision rule:** For one app and a few known operations, a direct API can be simpler. MCP pays off when multiple AI clients need a reusable, discoverable interface to the same capability. Either way, the executing software—not the model—must hold credentials, enforce permissions, and handle failures. MCP discovery can also consume context if too many tools are passed to a model, so expose the small set relevant to the task. The video's integration-count example is a teaching simplification, not a guaranteed engineering cost saving.
+
+**Try it:** Change the direct API path in `call_direct_api()` and observe the request fail; then run the unchanged MCP path. Add a new read-only tool to `mcp_server.py` and see it appear in the discovered list. Explain why neither change modifies `compare_sla()`.
+
+**Interview version:** “An API defines operations a service exposes. An MCP server can wrap those operations and advertise tools through a standard protocol. The host's MCP client discovers and calls them; the server or underlying API performs the work. The model only proposes an action when a model is present.”
+
 ## 5. Memory: what persists between requests
 
 **Video:** [saving memory 30:53](https://www.youtube.com/watch?v=H5o1P8RMiMw&t=1853s)
@@ -149,7 +182,6 @@ These checks make the **practice mode** reproducible. They do **not** prove that
 2. **Add a tool:** implement `find_driver('category')` as a separate named tool and update the schema, dispatcher, practice model, and tests. This teaches the full tool contract.
 3. **Compare retrieval methods:** write five questions with expected note IDs. Test lexical matching, then add embeddings only if you can measure an improvement.
 4. **Build a live eval:** run a small set of questions repeatedly with `--mode live`. Record answer accuracy, tool choice, citations, latency, and cost. Avoid claiming general reliability from one run.
-5. **Connect an MCP client:** start the server, call one tool through the client, and explain why the CLI still works without MCP.
+5. **Compare API and MCP:** run `python -m agent_lab.compare_interfaces`, trace both round trips, and explain why the CLI still works without MCP.
 
 For the broader concepts—models, embeddings, prompt engineering, and production design—keep using [your Applied AI Field Guide](https://github.com/kasteway/applied-ai-learning-lab/blob/main/STUDY_GUIDE.md). This repo is the runnable companion for **how agents are built**.
-
