@@ -2,7 +2,18 @@
 
 An **explainable Python learning project** inspired by Tech With Tim's [Build Your Own Agentic Harness in Python](https://www.youtube.com/watch?v=H5o1P8RMiMw). The video builds from model calls to tools, an agent loop, MCP, and memory. This lab uses that sequence, then adds **retrieval (RAG), evaluation, and safeguards**. It is original teaching code, not a copy of the creator's project.
 
-**Business scenario:** a support leader asks why SLA attainment dropped. The agent checks ticket-level data, identifies the largest regional contribution to late tickets, retrieves an operating note, and produces a cited investigation brief. All tickets and notes are **fictional**. No customer data, production system, or outbound action is involved.
+**Start here:** [A three-stage beginner route](START_HERE.md) begins with the original fictional case, then runs a real public payments-operations case through the same agent loop.
+
+**Original business scenario:** a support leader asks why SLA attainment dropped. The agent checks ticket-level data, identifies the largest regional contribution to late tickets, retrieves an operating note, and produces a cited investigation brief. All tickets and notes are **fictional**. No customer data, production system, or outbound action is involved.
+
+## Run the two cases in two minutes
+
+```bash
+python3 -m agent_lab.cli --trace
+python3 -m agent_lab.payment_case
+```
+
+The first case uses fictional support tickets. The second uses a [documented public CFPB money-transfer complaint snapshot](data/provenance.json). Its 7,953 filtered complaints include 2,929 labeled “Fraud or scam.” Those are published complaint counts, not a fraud rate or a representative sample. Both run through the same [`run()` loop](agent_lab/harness.py), using a transparent scripted decision maker and read-only tools. Follow [START_HERE.md](START_HERE.md) for the code walkthrough.
 
 ## Run it in two minutes
 
@@ -57,7 +68,7 @@ The script calls the **same `compare_sla()` calculation twice**. First, a direct
 
 ## Study path
 
-Start with [the illustrated, code-linked study guide](STUDY_GUIDE.md), then use the experiment prompts at the end. Each step maps a video chapter to a file you can run and a question you should be able to answer in an interview.
+Start with [START_HERE.md](START_HERE.md), then continue to [the illustrated, code-linked study guide](STUDY_GUIDE.md), then use the experiment prompts at the end. Each step maps a video chapter to a file you can run and a question you should be able to answer in an interview.
 
 ```text
 question -> model decision -> validated Python tool -> evidence -> model decision -> answer

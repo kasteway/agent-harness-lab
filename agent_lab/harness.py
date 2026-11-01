@@ -3,7 +3,7 @@
 from .tools import execute
 
 
-def run(question, model, max_steps=5):
+def run(question, model, max_steps=5, execute_tool=execute):
     if not isinstance(question, str) or not question.strip() or len(question) > 500:
         raise ValueError("question must be 1-500 characters")
     if not 1 <= max_steps <= 10:
@@ -19,8 +19,7 @@ def run(question, model, max_steps=5):
         if not decision.tool or not isinstance(decision.arguments, dict):
             raise RuntimeError("model returned neither an answer nor a valid tool request")
         # The model does not execute its own request. This code remains in control.
-        result = execute(decision.tool, decision.arguments)
+        result = execute_tool(decision.tool, decision.arguments)
         history.append({"name": decision.tool, "arguments": decision.arguments,
                         "result": result, "call_id": decision.call_id})
     raise RuntimeError(f"Stopped after {max_steps} steps; no final answer")
-

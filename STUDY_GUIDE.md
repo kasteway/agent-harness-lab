@@ -2,6 +2,10 @@
 
 This guide is designed to answer two questions together: **“What is this concept?”** and **“Where is it in the code I can run?”** Read it beside the [video](https://www.youtube.com/watch?v=H5o1P8RMiMw), but you should not need to reopen the video to recall the architecture. Its chapter links are learning anchors, not claims that this repository reproduces the creator's code.
 
+## Beginner route: the real payments case
+
+If the full guide feels dense, begin with [START_HERE.md](START_HERE.md). Run `python3 -m agent_lab.payment_case` and read [`payment_case.py`](agent_lab/payment_case.py). Its scripted decision maker asks the same [`run()` loop](agent_lab/harness.py) to call three read-only tools over a real public CFPB money-transfer complaint aggregate: overview, monthly fraud/scam counts, and source context. Follow the three printed results before reading the original fictional support case below. The separate [MCP lab](https://github.com/kasteway/payments-mcp-lab) and [RAG lab](https://github.com/kasteway/payments-rag-lab) isolate those building blocks on the same data.
+
 ## The business story
 
 Your fictional support team had six tickets in each of two weeks. A leader asks, *“Why did support SLA fall this week, and what should we investigate?”* The assistant may read sample ticket records and local notes. It may **not** change a ticket or send a message. A convincing answer has three layers:

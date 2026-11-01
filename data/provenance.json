@@ -1,0 +1,11 @@
+{
+  "source": "CFPB Consumer Complaint Database public API",
+  "source_url": "https://www.consumerfinance.gov/data-research/consumer-complaints/search/api/v1/",
+  "upstream_project": "https://github.com/kasteway/signaldesk-ai",
+  "product": "Money transfer, virtual currency, or money service",
+  "period": "2024-01-01 through 2024-06-30",
+  "source_rows": 7953,
+  "aggregation": "count by received month and issue, including explicit zero-count month/issue cells",
+  "source_csv_sha256": "b45fd113582001d414fba795a7fb38946c1bdd2f9b4f72e1e4198da1ad709af4",
+  "limitations": "Public complaint counts are not population-adjusted rates or representative samples; no narratives or company identifiers retained."
+}
