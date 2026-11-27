@@ -1,37 +1,36 @@
 # Agent Harness Lab: build an analytics agent from scratch
 
+[![Offline checks](https://github.com/kasteway/agent-harness-lab/actions/workflows/checks.yml/badge.svg)](https://github.com/kasteway/agent-harness-lab/actions/workflows/checks.yml)
+
 An **explainable Python learning project** inspired by Tech With Tim's [Build Your Own Agentic Harness in Python](https://www.youtube.com/watch?v=H5o1P8RMiMw). The video builds from model calls to tools, an agent loop, MCP, and memory. This lab uses that sequence, then adds **retrieval (RAG), evaluation, and safeguards**. It is original teaching code, not a copy of the creator's project.
 
 **Start here:** [A three-stage beginner route](START_HERE.md) begins with the original fictional case, then runs a real public payments-operations case through the same agent loop.
 
 **Original business scenario:** a support leader asks why SLA attainment dropped. The agent checks ticket-level data, identifies the largest regional contribution to late tickets, retrieves an operating note, and produces a cited investigation brief. All tickets and notes are **fictional**. No customer data, production system, or outbound action is involved.
 
-## Run the two cases in two minutes
+## Quick start: two offline analytics cases
+
+Requires Python 3.9+ and Git. Run these commands from a terminal; no API key or package installation is needed.
 
 ```bash
+git clone https://github.com/kasteway/agent-harness-lab.git
+cd agent-harness-lab
 python3 -m agent_lab.cli --trace
 python3 -m agent_lab.payment_case
 ```
 
-The first case uses fictional support tickets. The second uses a [documented public CFPB money-transfer complaint snapshot](data/provenance.json). Its 7,953 filtered complaints include 2,929 labeled “Fraud or scam.” Those are published complaint counts, not a fraud rate or a representative sample. Both run through the same [`run()` loop](agent_lab/harness.py), using a transparent scripted decision maker and read-only tools. Follow [START_HERE.md](START_HERE.md) for the code walkthrough.
+The first case investigates SLA attainment using fictional support tickets. The second uses a [documented public CFPB money-transfer complaint snapshot](data/provenance.json): 7,953 filtered complaints, including 2,929 labeled “Fraud or scam.” These are published complaint counts, not a fraud rate or a representative sample.
 
-## Run it in two minutes
+Both cases use the same [`run()` loop](agent_lab/harness.py), a scripted decision maker, and read-only tools. The trace shows intermediate tool calls and results. **Offline practice is deterministic; it does not use a language model.** The optional live mode below lets a model choose tools.
 
-Python 3.9+ is enough for practice mode; it uses only the standard library.
+To evaluate the lab and run its tests:
 
 ```bash
-python3 -m agent_lab.cli --trace
 python3 -m agent_lab.evaluate
 python3 -m unittest discover -s tests -v
 ```
 
-The first command prints both an answer and each intermediate tool call/result. Try changing the question:
-
-```bash
-python3 -m agent_lab.cli "What happened to our service level?" --trace
-```
-
-**Practice mode is scripted.** It teaches the shape of a real agent loop and can be tested for free, but it is not a language model. The true model-driven option is below.
+Follow [START_HERE.md](START_HERE.md) for the walkthrough, or try another question with `python3 -m agent_lab.cli "What happened to our service level?" --trace`.
 
 ## Try real model-selected tools (optional)
 
@@ -91,6 +90,10 @@ MCP server -> a separate standardized interface to the same tools
 | Safeguards | Tool allowlist, input validation, read-only operations, bounded steps, and no code execution |
 
 This is a learning lab, **not** a production support assistant. The sample is tiny. Lexical retrieval is a useful baseline, not an embeddings/vector database. The deterministic practice answer is not evidence of real-model reliability. Live-model behavior needs its own repeated evaluation before a real deployment.
+
+## Automated checks
+
+GitHub Actions runs the existing offline tests on every push and pull request, using Python 3.9 and 3.13. These checks require no API keys and make no paid model calls. They cover the agent loop, local HTTP interface, payment calculations, and safeguards; optional live-model and MCP integrations are outside this workflow.
 
 ## References
 
